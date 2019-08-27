@@ -1,0 +1,140 @@
+﻿<UserControl x:Class="awsmanager.View.SQSUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:awsmanager.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <!--DataGrid style -->
+        <Style x:Key="DataGridStyle" TargetType="{x:Type DataGrid}">
+            <Setter Property="ColumnHeaderStyle" Value="{DynamicResource ColumnHeaderStyle }"/>
+            <Setter Property="RowStyle" Value="{DynamicResource RowStyle }"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="ColumnWidth" Value="*"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="MinRowHeight" Value="35"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+        </Style>
+        <!--Data grid header style-->
+        <Style x:Key="ColumnHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Gray"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Margin" Value="0,0,0,0"/>
+
+        </Style>
+        <!-- button detail style-->
+        <Style x:Key="ButtonDetailStyle" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="White"/>
+        </Style>
+
+        <!--Data grid header details style-->
+        <Style x:Key="ColumnHeaderStyleDetail" TargetType="DataGridColumnHeader">
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Gray"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="SeparatorVisibility" Value="Visible"/>
+
+        </Style>
+        <!--DataGridDetailRowStyle-->
+        <Style x:Key="DataGridRowDetailStyle" TargetType="{x:Type DataGrid}">
+            <Setter Property="ColumnHeaderStyle" Value="{DynamicResource ColumnHeaderStyleDetail }"/>
+            <Setter Property="RowStyle" Value="{DynamicResource RowStyle }"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="MinColumnWidth" Value="50"/>
+            <Setter Property="Margin" Value="30,0,0,0"/>
+            <Setter Property="MinRowHeight" Value="35"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+            
+        </Style>
+
+        <Style x:Key="RowStyle" TargetType="{x:Type DataGridRow}">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver"
+                 Value="True">
+                    <Setter Property="Background"
+                     Value="#bcc3e0" />
+                </Trigger>
+              
+            </Style.Triggers>
+            <Style.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#bcc3e0" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#bcc3e0" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="Black" />
+            </Style.Resources>
+        </Style>
+
+
+    </UserControl.Resources>
+    <Grid >
+        <!-- sqs content-->
+        <DataGrid Name ="SQSList" Margin="10,99,10,10" FontSize="16" AutoGenerateColumns="False" ItemsSource="{Binding Source=queueList}"
+                  CanUserReorderColumns="True"  Style="{DynamicResource DataGridStyle}" ColumnWidth="*" CanUserAddRows="False" >
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="35">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Height="25" Margin="0,0,10,0"  Width="25" HorizontalAlignment="Left" Source="/Assets/icon_right.png" MouseDown="Image_MouseDown" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn  Width="340" Binding="{Binding Path= QueueName}">
+                    <DataGridTextColumn.Header>
+                        <StackPanel Width="331" Orientation="Horizontal" >
+                            <Image Height="25" Margin="0,0,10,0"  Width="25" HorizontalAlignment="Left" Source="/Assets/icon_title.png"/>
+                            <TextBlock HorizontalAlignment="Right" Text="Queue name"/>
+                        </StackPanel>
+                     
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Path=CountOfAvailableMessages}">
+                    <DataGridTextColumn.Header>
+                        <StackPanel Width="331" Orientation="Horizontal" >
+                            <Image Height="25" Margin="0,0,10,0"  Width="25" HorizontalAlignment="Left" Source="/Assets/icon_message_available.png"/>
+                            <TextBlock HorizontalAlignment="Right" Text="Messages available"/>
+                        </StackPanel>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                <DataGridTextColumn  Binding="{Binding Path=CountOfMessagesInFlight}">
+                    <DataGridTextColumn.Header>
+                        <StackPanel Width="331" Orientation="Horizontal" >
+                            <Image Height="25" Margin="0,0,10,0"  Width="25" HorizontalAlignment="Left" Source="/Assets/icon_message_flight.png"/>
+                            <TextBlock HorizontalAlignment="Right" Text="Messages in flight"/>
+                        </StackPanel>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding ="{Binding Path = CreatedDate}">
+                    <DataGridTextColumn.Header>
+                        <StackPanel Width="331" Orientation="Horizontal" >
+                            <Image Height="25" Margin="0,0,10,0"  Width="25" HorizontalAlignment="Left" Source="/Assets/icon_date.png"/>
+                            <TextBlock HorizontalAlignment="Right" Text="Created date"/>
+                        </StackPanel>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+
+
+            </DataGrid.Columns>
+            <DataGrid.RowDetailsTemplate >
+                <DataTemplate>
+                    <DataGrid x:Name="RowDetails" AutoGenerateColumns="True" ItemsSource="{Binding Path=messages}" CanUserAddRows="False" Style="{DynamicResource DataGridRowDetailStyle}">
+                    </DataGrid>
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
+        </DataGrid>
+            
+    </Grid>
+</UserControl>

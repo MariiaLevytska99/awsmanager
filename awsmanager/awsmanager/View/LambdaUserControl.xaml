@@ -1,0 +1,146 @@
+﻿<UserControl x:Class="awsmanager.View.LambdaUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:awsmanagerLib.Models;assembly=awsmanagerLib"
+        xmlns:core ="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ObjectDataProvider x:Key="myEnum" MethodName="GetValues" ObjectType="{x:Type core:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type Type="local:LambdaStatus"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <!--DataGrid style -->
+        <Style x:Key="DataGridStyle" TargetType="{x:Type DataGrid}">
+            <Setter Property="ColumnHeaderStyle" Value="{DynamicResource ColumnHeaderStyle }"/>
+            <Setter Property="RowStyle" Value="{DynamicResource RowStyle }"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="ColumnWidth" Value="*"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="MinRowHeight" Value="35"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+        </Style>
+        <!--Data grid header style-->
+        <Style x:Key="ColumnHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Gray"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Margin" Value="0,0,0,0"/>
+
+        </Style>
+        <!-- button detail style-->
+        <Style x:Key="ButtonDetailStyle" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="White"/>
+        </Style>
+
+        <!--Data grid header details style-->
+        <Style x:Key="ColumnHeaderStyleDetail" TargetType="DataGridColumnHeader">
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Gray"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="SeparatorVisibility" Value="Visible"/>
+
+        </Style>
+        <!--DataGridDetailRowStyle-->
+        <Style x:Key="DataGridRowDetailStyle" TargetType="{x:Type DataGrid}">
+            <Setter Property="ColumnHeaderStyle" Value="{DynamicResource ColumnHeaderStyleDetail }"/>
+            <Setter Property="RowStyle" Value="{DynamicResource RowStyle }"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="MinColumnWidth" Value="50"/>
+            <Setter Property="Margin" Value="30,0,0,0"/>
+            <Setter Property="MinRowHeight" Value="35"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+
+        </Style>
+
+        <Style x:Key="RowStyle" TargetType="{x:Type DataGridRow}">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver"
+                 Value="True">
+                    <Setter Property="Background"
+                     Value="#bcc3e0" />
+                </Trigger>
+
+            </Style.Triggers>
+            <Style.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#bcc3e0" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#bcc3e0" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="Black" />
+            </Style.Resources>
+        </Style>
+
+
+    </UserControl.Resources>
+    <Grid >
+        <DataGrid Name ="LambdaList" Margin="10,99,10,10" FontSize="16" AutoGenerateColumns="False" ItemsSource="{Binding Source=lambdaList}"
+                   CanUserReorderColumns="True"  Style="{DynamicResource DataGridStyle}" ColumnWidth="*" CanUserAddRows="False">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="35" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate >
+                            <Image Height="25" Margin="0,0,10,0"  Width="25" HorizontalAlignment="Left" Source="/Assets/icon_right.png" MouseDown="Image_MouseDown"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn  Width="340" Binding="{Binding Path= FunctionName}">
+                    <DataGridTextColumn.Header>
+                        <StackPanel Width="331" Orientation="Horizontal" Margin=" 20,0,0,0">
+                            <Image Height="25" Margin="0,0,10,0"  Width="25" HorizontalAlignment="Left" Source="/Assets/icon_title.png"/>
+                            <TextBlock HorizontalAlignment="Right" Text="Function name"/>
+                        </StackPanel>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                <DataGridTextColumn  Binding="{Binding Path=Description}">
+                    <DataGridTextColumn.Header>
+                        <StackPanel Width="331" Orientation="Horizontal" Margin=" 20,0,0,0">
+                            <Image Height="25" Margin="0,0,10,0"  Width="25" HorizontalAlignment="Left" Source="/Assets/icon_detail.png"/>
+                            <TextBlock HorizontalAlignment="Right" Text="Description"/>
+                        </StackPanel>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                <DataGridTextColumn  Binding="{Binding Path=Size}">
+                    <DataGridTextColumn.Header>
+                        <StackPanel Width="331" Orientation="Horizontal" Margin=" 20,0,0,0">
+                            <Image Height="25" Margin="0,0,10,0"  Width="25" HorizontalAlignment="Left" Source="/Assets/icon_size.png"/>
+                            <TextBlock HorizontalAlignment="Right" Text="Size"/>
+                        </StackPanel>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                <DataGridComboBoxColumn ItemsSource="{Binding Source={StaticResource myEnum}}" SelectedValueBinding="{Binding Path=Status}" >
+                    <DataGridComboBoxColumn.Header>
+                        <StackPanel Width="331" Orientation="Horizontal" Margin=" 20,0,0,0">
+                            <Image Height="25" Margin="0,0,10,0"  Width="25" HorizontalAlignment="Left" Source="/Assets/icon_status.png"/>
+                            <TextBlock HorizontalAlignment="Right" Text="Status"/>
+                        </StackPanel>
+                    </DataGridComboBoxColumn.Header>
+                    <DataGridComboBoxColumn.EditingElementStyle>
+                        <Style TargetType="{x:Type ComboBox}">
+                            <EventSetter Event="SelectionChanged" Handler="SomeSelectionChanged" />
+                        </Style>
+                    </DataGridComboBoxColumn.EditingElementStyle>
+                </DataGridComboBoxColumn>
+            </DataGrid.Columns>
+            <DataGrid.RowDetailsTemplate >
+                <DataTemplate>
+                    <DataGrid  AutoGenerateColumns="True" ItemsSource="{Binding Path=Metrics}"   CanUserAddRows="False" Style="{DynamicResource DataGridRowDetailStyle}">
+                    </DataGrid>
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
+        </DataGrid>
+    </Grid>
+</UserControl>
